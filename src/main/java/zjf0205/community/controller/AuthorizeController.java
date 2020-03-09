@@ -9,6 +9,8 @@ import zjf0205.community.dto.AccessTokenDTO;
 import zjf0205.community.dto.GithubUser;
 import zjf0205.community.provider.GithubProvider;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 public class AuthorizeController {
     @Autowired
@@ -24,7 +26,8 @@ public class AuthorizeController {
 
     @GetMapping("/callback")
     public  String callback(@RequestParam(name = "code") String code,
-                            @RequestParam(name="state" )String state){
+                            @RequestParam(name="state" )String state,
+                            HttpServletRequest request ){
         AccessTokenDTO accessTokenDTO=new AccessTokenDTO();
         accessTokenDTO.setClient_id(clientId);
         accessTokenDTO.setClient_secret(clientSecret);
@@ -33,7 +36,12 @@ public class AuthorizeController {
         accessTokenDTO.setState(state);
         String accessToken=githubProvider.getAccessToken(accessTokenDTO);
         GithubUser user=githubProvider.getUser(accessToken);
-        System.out.println(user.getName());
-        return "index";
+        if(user!=null){
+            request.getSession().setAttribute("user",user);
+            //登录成功写，cookie和session
+        }else{
+            //登录失败，重新登录
+        }
+        return "redirect:/";//成功重定向到首页
     }
 }
