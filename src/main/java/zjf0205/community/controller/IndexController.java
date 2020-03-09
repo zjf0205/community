@@ -1,4 +1,4 @@
-package zjf0205.community;
+package zjf0205.community.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
