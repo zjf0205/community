@@ -8,5 +8,5 @@ import zjf0205.community.model.Question;
 @Mapper
 public interface QuestionMapper {
     @Insert("insert into question(title,description,gmt_create,gmt_modified,creator,tag ) values(#{title},#{description},#{gmtCreate},#{gmtModified},#{creator},#{tag})")
-    public void insert(Question question);
+    void insert(Question question);
 }
