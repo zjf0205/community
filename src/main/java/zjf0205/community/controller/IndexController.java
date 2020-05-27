@@ -6,14 +6,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import zjf0205.community.dto.PaginationDtTO;
-import zjf0205.community.dto.QuestionDTO;
 import zjf0205.community.mapper.UserMapper;
 import zjf0205.community.model.User;
 import zjf0205.community.service.QuestionService;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 @Controller
 public class IndexController {
