@@ -1,5 +1,8 @@
 package zjf0205.community.service;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,25 +23,10 @@ public class QuestionService {
     @Autowired
     private UserMapper userMapper;
    //查询问题表的功能
-    public PaginationDtTO list(Integer page, Integer size) {
-        PaginationDtTO paginationDtTO=new PaginationDtTO();
-        Integer totalCount=questionMapper.count();
-        paginationDtTO.setPagination(totalCount,page,size);
-
-        if (page<1){
-            page=1;
-        }
-        if (page>paginationDtTO.getTotalPage()){
-            page=paginationDtTO.getTotalPage();
-        }
-
-        //size*(page-1)，数据库分页是 limit offset,size
-        Integer offset=size*(page-1);
-        //从问题表中查询到所有问题数据，并存入数据表
-        List<Question>questions=questionMapper.list(offset,size);
-        //定义一个QuestionDTO列表
+    public PageInfo list(Integer page, Integer size) {
         List<QuestionDTO>questionDTOList=new ArrayList<>();
-
+        Page<Object> p=PageHelper.startPage(page,size);
+        List<Question> questions=questionMapper.findAll();
         for (Question question:questions) {
             User user=userMapper.findById(question.getCreator());
             QuestionDTO questionDTO=new QuestionDTO();
@@ -48,7 +36,13 @@ public class QuestionService {
             //添加入列表
             questionDTOList.add(questionDTO);
         }
-        paginationDtTO.setQuestions(questionDTOList);
-        return paginationDtTO;
+        PageInfo pageInfo=new PageInfo(p.getResult());
+        pageInfo.setList(questionDTOList);
+
+//        PaginationDtTO paginationDtTO=new PaginationDtTO();
+//        paginationDtTO.setPagination((int) pageInfo.getTotal(),page,size);
+//        System.out.println(pageInfo.getPages());
+//        paginationDtTO.setQuestions(pageInfo.getList());
+        return pageInfo;
     }
 }
