@@ -3,6 +3,7 @@ package zjf0205.community.mapper;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import zjf0205.community.model.Question;
 
@@ -18,4 +19,6 @@ public interface QuestionMapper {
 
     @Select("select count(1) from question")//查询数据库中总共有多少条数据
     Integer count();
+    @Select("select * from question where creator=#{userId} ")
+    List<Question> findByUserId(@Param("userId") Integer userId);
 }

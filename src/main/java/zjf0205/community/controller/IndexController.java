@@ -25,7 +25,7 @@ public class IndexController {
     @GetMapping("/")
     public  String index(HttpServletRequest request, Model model,
                          @RequestParam(name="page",defaultValue = "1") Integer page,
-                         @RequestParam(name="size",defaultValue = "5") Integer size
+                         @RequestParam(name="size",defaultValue = "3") Integer size
                           ) {
         Cookie[] cookies = request.getCookies();
         if (cookies!=null&&cookies.length!=0){
@@ -40,7 +40,7 @@ public class IndexController {
                 }
             }
         }
-         PageInfo pageInfo =questionService.list(page,size);
+        PageInfo pageInfo =questionService.list(page,size);
         model.addAttribute("pageInfo",pageInfo);
 
         return "index";

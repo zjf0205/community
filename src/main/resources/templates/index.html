@@ -45,8 +45,7 @@
                     </li>
 
                     <li th:each="navigatepageNum:${pageInfo.navigatepageNums}" th:class="${pageInfo.pageNum==navigatepageNum}? 'active':''">
-                        <a th:href="@{/(page=${navigatepageNum})}" th:text="${navigatepageNum}">
-                        </a>
+                        <a th:href="@{/(page=${navigatepageNum})}" th:text="${navigatepageNum}"></a>
                     </li>
 
                     <li th:if="${pageInfo.hasNextPage}">
