@@ -11,14 +11,11 @@ import zjf0205.community.mapper.UserMapper;
 import zjf0205.community.model.User;
 import zjf0205.community.service.QuestionService;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 //个人资料
 @Controller
 public class ProfileController {
-    @Autowired
-    private UserMapper userMapper;
     @Autowired
     private QuestionService questionService;
 
@@ -30,21 +27,7 @@ public class ProfileController {
                           @RequestParam(name="size",defaultValue = "3") Integer size,
                           Model model){//传值给profile页面
 
-        Cookie[] cookies = request.getCookies();
-        User user=null;
-        if (cookies!=null&&cookies.length!=0){
-            for(Cookie cookie:cookies){
-                if (cookie.getName().equals("token")){
-                    String token = cookie.getValue();
-                    user=userMapper.findByToken(token);
-                    if (user!=null){//将数据放到session
-                        request.getSession().setAttribute("user",user);
-                    }
-                    break;
-                }
-            }
-        }
-
+       User user= (User) request.getSession().getAttribute("user");
         if (user==null){
             return "redirect:/";
         }
